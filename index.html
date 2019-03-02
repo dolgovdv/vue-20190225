@@ -13,12 +13,12 @@
 
     <h1>Список пользователей {{ countList }}</h1>
     <!-- кнопка скрытия таблицы -->
-    <button type="button" @click="changeShow"> {{ textButton }} </button>
+    <button type="button" @click="changeShow"> {{ textButton1 }} </button>
 
     <!-- условие отображения списка -->
     <template  v-if="show">
       <!-- отображение списка пользователей -->
-      <div v-for ="listItem in list" :key="listItem.id">
+      <div v-for ="listItem in avatar" :key="listItem.id">
         {{ listItem.firstName }}
         {{ listItem.secondName }}
         {{ listItem.surName }}
@@ -29,7 +29,7 @@
   </div> 
 
   <script>
-    window.app = new Vue({
+    const app = new Vue({
       el: "#app",
       data:function() {
         return {
@@ -40,17 +40,27 @@
       },
       computed: {
         // проверка на наличие аватарки
-        // avatar: function(){          
-        //     if (this.list.avatar === "") {
-        //     // haveAvatar = false
-        //     return this.list.avatar = "Not Picture"          
-        //   }
-        // },
+        avatar: function(){  
+          this.list.forEach(element => {
+            if (element.avatar === "") {
+              // haveAvatar = false
+              element.avatar = "http://www.avatar-mix.ru/avatars_64x64/289.jpg"          
+            }  
+          });        
+          return this.list
+        },
         // колличество пользователей
         countList: function() {
           return this.list.length          
         },
-         
+        textButton1: function(){
+          // смена названия кнопки
+          if (this.show === true) {
+            return "hidden"
+          }else {
+            return "show list"
+          }          
+        }
       },
       methods: {
         // изменение отображения таблицы
@@ -60,24 +70,24 @@
         },
         changeTextButton() {          
           // смена названия кнопки
-          if (this.show = true) {
+          if (this.show === true) {
             this.textButton = "hidden"
           }else {
             this.textButton = "show list"
           }
-        }
+        },
         // смена аватарки на текст
-        // changeAvatarShow: function() {
-        //   if (this.list.avatar === "") {
-        //     // haveAvatar = false
-        //     this.list.avatar = "Not Picture"
-        //   }
-        // }
+        changeAvatarShow: function() {
+          if (this.list.avatar === "") {
+            // haveAvatar = false
+            this.list.avatar = "http://www.avatar-mix.ru/avatars_64x64/289.jpg"
+          }
+        }
       },
       mounted() {
         this.list = [
             {id: 1, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
-            {id: 2, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
+            {id: 2, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: ""},
             {id: 3, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
             {id: 4, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
             {id: 5, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: ""},
