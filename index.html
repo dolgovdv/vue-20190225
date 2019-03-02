@@ -16,7 +16,7 @@
     <button type="button" @click="changeShow"> {{ textButton }} </button>
 
     <!-- условие отображения списка -->
-    <divtemlate  v-if="show">
+    <template  v-if="show">
       <!-- отображение списка пользователей -->
       <div v-for ="listItem in list" :key="listItem.id">
         {{ listItem.firstName }}
@@ -24,7 +24,7 @@
         {{ listItem.surName }}
         <img :src="listItem.avatar" alt="not">
       </div>
-    </divtemlate>
+    </template>
     
   </div> 
 
