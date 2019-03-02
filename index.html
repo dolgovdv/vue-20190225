@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+</head>
+<body>
+  <!--шаблон vue -->
+  <div id="app">
+    <!-- кнопка скрытия таблицы -->
+    <button type="button" @click="changeShow">Hidden</button>
+
+    <!-- отображение списка пользователей -->
+    <div v-for ="listItem in list" :key="listItem.id" v-show="show">
+      {{ listItem.firstName }}
+      {{ listItem.secondName }}
+      {{ listItem.surName }}
+      <img :src="listItem.avatar" alt="not">
+    </div>
+  </div> 
+
+  <script>
+    window.app = new Vue({
+      el: "#app",
+      data:function() {
+        return {
+          list: [
+            {id: 1, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
+            {id: 2, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
+            {id: 3, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
+            {id: 4, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
+            {id: 5, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: ""},
+          ],
+          show: true, // отображение таблицы
+          haveAvatar: true // наличие аватарки
+        }
+      },
+      computed: {
+        // проверка на наличие аватарки
+        avatar: function(){
+          
+            if (this.list.avatar === "") {
+            // haveAvatar = false
+            return this.list.avatar = "Not Picture"
+          
+          }
+        }
+      },
+      methods: {
+        // изменение отображения таблицы
+        changeShow: function(){
+          // console.log("change Show")
+          this.show = !this.show
+        },
+        // смена аватарки на текст
+        changeAvatarShow: function() {
+          if (this.list.avatar === "") {
+            // haveAvatar = false
+            this.list.avatar = "Not Picture"
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>
