@@ -6,14 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Vue</title>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <!--шаблон vue -->
-  <div id="app">
+  <div id="app" v-cloak>
 
     <h1>Список пользователей {{ countList }}</h1>
     <!-- кнопка скрытия таблицы -->
-    <button type="button" @click="changeShow"> {{ textButton1 }} </button>
+    <button type="button" @click="changeShow" v-text="changeTextButton()"></button>
 
     <!-- условие отображения списка -->
     <template  v-if="show">
@@ -22,7 +28,7 @@
         {{ listItem.firstName }}
         {{ listItem.secondName }}
         {{ listItem.surName }}
-        <img :src="listItem.avatar" alt="not">
+        <img :src="changeAvatarShow(listItem.avatar)" alt="not">
       </div>
     </template>
     
@@ -35,7 +41,6 @@
         return {
           list: [], // список пользователей
           show: true, // отображение таблицы
-          textButton: "hidden" //название кнопки
         }
       },
       computed: {
@@ -53,14 +58,10 @@
         countList: function() {
           return this.list.length          
         },
-        textButton1: function(){
-          // смена названия кнопки
-          if (this.show === true) {
-            return "hidden"
-          }else {
-            return "show list"
-          }          
-        }
+        // textButton: function(){
+        //   // смена названия кнопки
+        //   return this.show === true ? "hidden" : "show list"          
+        // }
       },
       methods: {
         // изменение отображения таблицы
@@ -71,17 +72,17 @@
         changeTextButton() {          
           // смена названия кнопки
           if (this.show === true) {
-            this.textButton = "hidden"
+            return this.textButton = "hidden"
           }else {
-            this.textButton = "show list"
+            return this.textButton = "show list"
           }
         },
         // смена аватарки на текст
-        changeAvatarShow: function() {
-          if (this.list.avatar === "") {
-            // haveAvatar = false
-            this.list.avatar = "http://www.avatar-mix.ru/avatars_64x64/289.jpg"
+        changeAvatarShow: function(av) {
+          if (av === "") {
+            av = "http://www.avatar-mix.ru/avatars_64x64/289.jpg"
           }
+          return av
         }
       },
       mounted() {
