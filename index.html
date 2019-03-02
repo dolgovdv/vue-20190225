@@ -10,6 +10,8 @@
 <body>
   <!--шаблон vue -->
   <div id="app">
+
+    <h1>Список ользоватлей {{ countList }}</h1>
     <!-- кнопка скрытия таблицы -->
     <button type="button" @click="changeShow">Hidden</button>
 
@@ -40,13 +42,15 @@
       },
       computed: {
         // проверка на наличие аватарки
-        avatar: function(){
-          
+        avatar: function(){          
             if (this.list.avatar === "") {
             // haveAvatar = false
-            return this.list.avatar = "Not Picture"
-          
+            return this.list.avatar = "Not Picture"          
           }
+        },
+        // колличество аользователей
+        countList: function() {
+          return this.list.length          
         }
       },
       methods: {
