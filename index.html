@@ -11,17 +11,21 @@
   <!--шаблон vue -->
   <div id="app">
 
-    <h1>Список пользоватлей {{ countList }}</h1>
+    <h1>Список пользователей {{ countList }}</h1>
     <!-- кнопка скрытия таблицы -->
-    <button type="button" @click="changeShow">Hidden</button>
+    <button type="button" @click="changeShow"> {{ textButton }} </button>
 
-    <!-- отображение списка пользователей -->
-    <div v-for ="listItem in list" :key="listItem.id" v-show="show">
-      {{ listItem.firstName }}
-      {{ listItem.secondName }}
-      {{ listItem.surName }}
-      <img :src="listItem.avatar" alt="not">
-    </div>
+    <!-- условие отображения списка -->
+    <divtemlate  v-if="show">
+      <!-- отображение списка пользователей -->
+      <div v-for ="listItem in list" :key="listItem.id">
+        {{ listItem.firstName }}
+        {{ listItem.secondName }}
+        {{ listItem.surName }}
+        <img :src="listItem.avatar" alt="not">
+      </div>
+    </divtemlate>
+    
   </div> 
 
   <script>
@@ -29,29 +33,24 @@
       el: "#app",
       data:function() {
         return {
-          list: [
-            {id: 1, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
-            {id: 2, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
-            {id: 3, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
-            {id: 4, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
-            {id: 5, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: ""},
-          ],
+          list: [], // список пользователей
           show: true, // отображение таблицы
-          haveAvatar: true // наличие аватарки
+          textButton: "hidden" //название кнопки
         }
       },
       computed: {
         // проверка на наличие аватарки
-        avatar: function(){          
-            if (this.list.avatar === "") {
-            // haveAvatar = false
-            return this.list.avatar = "Not Picture"          
-          }
-        },
-        // колличество аользователей
+        // avatar: function(){          
+        //     if (this.list.avatar === "") {
+        //     // haveAvatar = false
+        //     return this.list.avatar = "Not Picture"          
+        //   }
+        // },
+        // колличество пользователей
         countList: function() {
           return this.list.length          
-        }
+        },
+         
       },
       methods: {
         // изменение отображения таблицы
@@ -59,13 +58,30 @@
           // console.log("change Show")
           this.show = !this.show
         },
-        // смена аватарки на текст
-        changeAvatarShow: function() {
-          if (this.list.avatar === "") {
-            // haveAvatar = false
-            this.list.avatar = "Not Picture"
+        changeTextButton() {          
+          // смена названия кнопки
+          if (this.show = true) {
+            this.textButton = "hidden"
+          }else {
+            this.textButton = "show list"
           }
         }
+        // смена аватарки на текст
+        // changeAvatarShow: function() {
+        //   if (this.list.avatar === "") {
+        //     // haveAvatar = false
+        //     this.list.avatar = "Not Picture"
+        //   }
+        // }
+      },
+      mounted() {
+        this.list = [
+            {id: 1, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
+            {id: 2, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
+            {id: 3, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
+            {id: 4, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
+            {id: 5, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: ""},
+          ]
       }
     })
   </script>
