@@ -6,10 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Vue</title>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
   <style>
     [v-cloak] {
       display: none;
+    }
+    table, tr, td {
+      border: 1px black solid;
     }
   </style>
 </head>
@@ -19,24 +23,50 @@
 
     <h1>Список пользователей {{ countList }}</h1>
     <!-- кнопка скрытия таблицы -->
-    <button type="button" @click="changeShow" v-text="changeTextButton()"></button>
+    <button type="button" @click="changeShow" v-text="changeTextButton()" class="btn btn-primary"></button>
 
     <!-- условие отображения списка -->
     <template  v-if="show">
       <!-- отображение списка пользователей -->
-      <div v-for ="listItem in avatar" :key="listItem.id">
-        {{ listItem.firstName }}
-        {{ listItem.secondName }}
-        {{ listItem.surName }}
-        <img :src="changeAvatarShow(listItem.avatar)" alt="not">
-      </div>
+      <users-table :users="list"></users-table>
     </template>
     
   </div> 
 
+  <template id="users-table"> 
+    <table>
+        <tr v-for ="listItem in listChange" :key="listItem.id">
+          <td>
+            {{ listItem.firstName }}
+          </td>
+          <td>
+            {{ listItem.secondName }}
+          </td>
+          <td>
+            {{ listItem.surName }}
+          </td>
+          <td>
+            <img :src="changeAvatarShow(listItem.avatar)" alt="not">
+          </td>
+        </tr>
+        <!-- <div>
+          {{ listItem.firstName }}
+          {{ listItem.secondName }}
+          {{ listItem.surName }}
+          <img :src="changeAvatarShow(listItem.avatar)" alt="not">
+        </div> -->
+      </table>   
+  </template>
+
+  <script src="users.js"></script>
+  <script src="editUser.js"></script>
   <script>
+    
     const app = new Vue({
       el: "#app",
+      components: {
+        'users-table': usersTable
+      },
       data:function() {
         return {
           list: [], // список пользователей
@@ -44,24 +74,15 @@
         }
       },
       computed: {
-        // проверка на наличие аватарки
-        avatar: function(){  
-          this.list.forEach(element => {
-            if (element.avatar === "") {
-              // haveAvatar = false
-              element.avatar = "http://www.avatar-mix.ru/avatars_64x64/289.jpg"          
-            }  
-          });        
-          return this.list
-        },
         // колличество пользователей
         countList: function() {
           return this.list.length          
-        },
-        // textButton: function(){
-        //   // смена названия кнопки
-        //   return this.show === true ? "hidden" : "show list"          
-        // }
+        }
+      },
+      watch: {
+        list: function() {
+          console.log('list change')
+        }
       },
       methods: {
         // изменение отображения таблицы
@@ -77,22 +98,10 @@
             return this.textButton = "show list"
           }
         },
-        // смена аватарки на текст
-        changeAvatarShow: function(av) {
-          if (av === "") {
-            av = "http://www.avatar-mix.ru/avatars_64x64/289.jpg"
-          }
-          return av
-        }
+           
       },
       mounted() {
-        this.list = [
-            {id: 1, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
-            {id: 2, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: ""},
-            {id: 3, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
-            {id: 4, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
-            {id: 5, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: ""},
-          ]
+        this.list = list
       }
     })
   </script>
