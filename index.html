@@ -12,7 +12,7 @@
     [v-cloak] {
       display: none;
     }
-    table, tr, td {
+    table, tr, td, th {
       border: 1px black solid;
     }
   </style>
@@ -23,19 +23,44 @@
 
     <h1>Список пользователей {{ countList }}</h1>
     <!-- кнопка скрытия таблицы -->
-    <button type="button" @click="changeShow" v-text="changeTextButton()" class="btn btn-primary"></button>
+    <button type="button" @click="changeShow" class="btn btn-outline-primary">{{ changeTextButton }}</button>
 
     <!-- условие отображения списка -->
     <template  v-if="show">
       <!-- отображение списка пользователей -->
-      <users-table :users="list"></users-table>
+      <users-table v-bind:users="list" v-on:remove-user="removeFromList"></users-table>
     </template>
     
   </div> 
 
   <template id="users-table"> 
     <table>
-        <tr v-for ="listItem in listChange" :key="listItem.id">
+      <thead>
+        <tr>
+          <th>
+            id
+          </th>
+          <th>
+            Имя
+          </th>
+          <th>
+            Отчество
+          </th>
+          <th>
+            Фамилия
+          </th>
+          <th>
+            Аватар
+          </th>
+        </tr>        
+      </thead>
+      <tbody>
+        <tr v-for="listItem in listChange" v-bind:key="listItem.id">
+          <td>
+            <button type="button" v-on:click="removeUser(listItem.id)">
+              # {{ listItem.id }}
+            </button>
+          </td>
           <td>
             {{ listItem.firstName }}
           </td>
@@ -49,13 +74,8 @@
             <img :src="changeAvatarShow(listItem.avatar)" alt="not">
           </td>
         </tr>
-        <!-- <div>
-          {{ listItem.firstName }}
-          {{ listItem.secondName }}
-          {{ listItem.surName }}
-          <img :src="changeAvatarShow(listItem.avatar)" alt="not">
-        </div> -->
-      </table>   
+      </tbody>      
+    </table>   
   </template>
 
   <script src="users.js"></script>
@@ -74,9 +94,17 @@
         }
       },
       computed: {
-        // колличество пользователей
+        // количество пользователей
         countList: function() {
           return this.list.length          
+        },
+        changeTextButton: function() {          
+          // смена названия кнопки
+          if (this.show === true) {
+            return this.textButton = "hidden"
+          }else {
+            return this.textButton = "show list"
+          }
         }
       },
       watch: {
@@ -87,20 +115,16 @@
       methods: {
         // изменение отображения таблицы
         changeShow: function(){
-          // console.log("change Show")
           this.show = !this.show
         },
-        changeTextButton() {          
-          // смена названия кнопки
-          if (this.show === true) {
-            return this.textButton = "hidden"
-          }else {
-            return this.textButton = "show list"
-          }
-        },
-           
+        removeFromList: function(id){
+          console.log('removeFromList = ', id);
+          this.list = this.list.filter(function(item){
+            return item.id !== id
+          })
+        }
       },
-      mounted() {
+      mounted: function() {
         this.list = list
       }
     })

@@ -47,12 +47,17 @@ const usersTable = {
       // console.log('valApper =', valApper)
       return valApper
     },
-    // смена аватарки на текст
+    // проверка аватарки и замена на значение по умолчанию
     changeAvatarShow: function(av) {
       if (av === "") {
         av = "http://www.avatar-mix.ru/avatars_64x64/289.jpg"
       }
       return av
-    }     
+    },
+    removeUser: function(id)  {
+      console.log('removeUser =', id);
+      
+      this.$emit('remove-user', id)
+    }
   }
 }
