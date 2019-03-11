@@ -1,11 +1,3 @@
-const list = [
-  {id: 1, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
-  {id: 2, firstName: "Петр", secondName: "Петрович", surName: "Иванов", avatar: ""},
-  {id: 3, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
-  {id: 4, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: "http://www.avatar-mix.ru/avatars_64x64/440.jpg"},
-  {id: 5, firstName: "Иван", secondName: "Иванович", surName: "Иванов", avatar: ""},
-]
-
 const usersTable = {
   template: '#users-table',
   props: {
@@ -55,9 +47,12 @@ const usersTable = {
       return av
     },
     removeUser: function(id)  {
-      console.log('removeUser =', id);
+      console.log('removeUser =', id)
       
       this.$emit('remove-user', id)
+    },
+    editUser: function(listItem) {
+      this.$emit('user-edit', listItem)    
     }
   }
 }
